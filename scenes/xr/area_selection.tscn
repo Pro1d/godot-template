@@ -1,0 +1,73 @@
+[gd_scene load_steps=12 format=3 uid="uid://d1vbg5pgcu12h"]
+
+[ext_resource type="Script" path="res://scripts/xr/XRRoot.gd" id="1_yij0d"]
+[ext_resource type="PackedScene" uid="uid://njx823gyk04n" path="res://addons/godot-xr-tools/hands/scenes/highpoly/left_hand.tscn" id="2_dnwog"]
+[ext_resource type="PackedScene" uid="uid://raeeicvvindd" path="res://addons/godot-xr-tools/hands/scenes/highpoly/right_hand.tscn" id="3_6llfu"]
+[ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="4_yemrl"]
+[ext_resource type="Shader" path="res://resources/shaders/area_selection.gdshader" id="5_x0mkx"]
+[ext_resource type="Shader" path="res://resources/shaders/area_selection_box.gdshader" id="6_jgcka"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ro7t5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o6weh"]
+render_priority = 0
+shader = ExtResource("5_x0mkx")
+shader_parameter/color = Color(0.556863, 0.854902, 1, 1)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_xjicv"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_bdexb"]
+size = Vector3(1, 0.5, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_63ego"]
+render_priority = 0
+shader = ExtResource("6_jgcka")
+shader_parameter/size_y = 0.5
+shader_parameter/color = Color(0.556863, 0.854902, 1, 1)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+script = ExtResource("1_yij0d")
+_passtrough = true
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+
+[node name="XRControllerLeft" type="XRController3D" parent="XROrigin3D"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, -0.5)
+tracker = &"left_hand"
+
+[node name="LeftHand" parent="XROrigin3D/XRControllerLeft" instance=ExtResource("2_dnwog")]
+
+[node name="XRControllerRight" type="XRController3D" parent="XROrigin3D"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -0.5)
+tracker = &"right_hand"
+
+[node name="RightHand" parent="XROrigin3D/XRControllerRight" instance=ExtResource("3_6llfu")]
+
+[node name="FunctionPointer" parent="XROrigin3D/XRControllerRight" instance=ExtResource("4_yemrl")]
+laser_length = 1
+show_target = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.882149, 0.351297, 0.313693, -0.37624, 0.125006, 0.918051, 0.283295, -0.927881, 0.242446, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_ro7t5")
+surface_material_override/0 = SubResource("ShaderMaterial_o6weh")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 1048576
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("WorldBoundaryShape3D_xjicv")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.6, 0, 0, 0, 1, 0, 0, 0, 1.6, 0, 0.25, 0)
+mesh = SubResource("BoxMesh_bdexb")
+surface_material_override/0 = SubResource("ShaderMaterial_63ego")
