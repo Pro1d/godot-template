@@ -1,0 +1,11 @@
+Model Information:
+* title:	Meta Quest 3 Low Poly (Oculus Quest)
+* source:	https://sketchfab.com/3d-models/meta-quest-3-low-poly-oculus-quest-f9292d0388d7447f865fefb667b86085
+* author:	Alvin Suen (https://sketchfab.com/alvinwcsuen)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Meta Quest 3 Low Poly (Oculus Quest)" (https://sketchfab.com/3d-models/meta-quest-3-low-poly-oculus-quest-f9292d0388d7447f865fefb667b86085) by Alvin Suen (https://sketchfab.com/alvinwcsuen) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
