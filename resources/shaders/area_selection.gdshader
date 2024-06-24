@@ -3,7 +3,7 @@ render_mode unshaded, depth_draw_always;
 
 uniform vec3 color : source_color = vec3(1);
 const float half_thickness = 0.02 / 2.0;
-const float handle_radius = 0.08;
+const float handle_radius = 0.05;
 
 void vertex() {
 	// Called for every vertex the material is visible on.

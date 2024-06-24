@@ -7,6 +7,31 @@ varying float height;
 varying float vertical;
 varying vec2 horizontal;
 
+vec4 mod289(vec4 x){return x - floor(x * (1.0 / 289.0)) * 289.0;}
+vec4 perm(vec4 x){return mod289(((x * 34.0) + 1.0) * x);}
+
+float noise31(vec3 p){
+    vec3 a = floor(p);
+    vec3 d = p - a;
+    d = d * d * (3.0 - 2.0 * d);
+
+    vec4 b = a.xxyy + vec4(0.0, 1.0, 0.0, 1.0);
+    vec4 k1 = perm(b.xyxy);
+    vec4 k2 = perm(k1.xyxy + b.zzww);
+
+    vec4 c = k2 + a.zzzz;
+    vec4 k3 = perm(c);
+    vec4 k4 = perm(c + 1.0);
+
+    vec4 o1 = fract(k3 * (1.0 / 41.0));
+    vec4 o2 = fract(k4 * (1.0 / 41.0));
+
+    vec4 o3 = o2 * d.z + o1 * (1.0 - d.z);
+    vec2 o4 = o3.yw * d.x + o3.xz * (1.0 - d.x);
+
+    return o4.y * d.y + o4.x * (1.0 - d.y);
+}
+
 float random (vec2 st) {
     return fract(
 		sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123
@@ -39,19 +64,20 @@ float noise (in vec2 st) {
             (c - a)* u.y * (1.0 - u.x) +
             (d - b) * u.x * u.y;
 }
+
 float noise3 (in vec3 st) {
     vec3 i = floor(st);
     vec3 f = fract(st);
 
     // Four corners in 2D of a tile
-    float a = random3(i);
-    float b = random3(i + vec3(1.0, 0.0, 0.0));
-    float c = random3(i + vec3(0.0, 1.0, 0.0));
-    float d = random3(i + vec3(1.0, 1.0, 0.0));
-    float a2 = random3(i + vec3(0.0, 0.0, 1.0));
-    float b2 = random3(i + vec3(1.0, 0.0, 1.0));
-    float c2 = random3(i + vec3(0.0, 1.0, 1.0));
-    float d2 = random3(i + vec3(1.0, 1.0, 1.0));
+    float a = noise31(i);
+    float b = noise31(i + vec3(1.0, 0.0, 0.0));
+    float c = noise31(i + vec3(0.0, 1.0, 0.0));
+    float d = noise31(i + vec3(1.0, 1.0, 0.0));
+    float a2 = noise31(i + vec3(0.0, 0.0, 1.0));
+    float b2 = noise31(i + vec3(1.0, 0.0, 1.0));
+    float c2 = noise31(i + vec3(0.0, 1.0, 1.0));
+    float d2 = noise31(i + vec3(1.0, 1.0, 1.0));
 
     // Smooth Interpolation
 
@@ -67,7 +93,7 @@ float noise3 (in vec3 st) {
 
 void vertex() {
 	height = VERTEX.y / size_y + .5;
-	horizontal = VERTEX.xz;
+	horizontal = VERTEX.xz + 0.5;
 	vertical = abs(NORMAL.y) < 0.01 ? 1.0 : 0.0;
     VERTEX = (MODELVIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
 }
@@ -75,12 +101,14 @@ void vertex() {
 void fragment() {
 	if (vertical < 0.1) discard;
 	vec2 scaled = horizontal * 25.0;
-	float t = .50 * TIME;
-	float r = noise3(vec3(scaled + vec2(0.5*t), t*0.05));
-	r = min(r * 0.8 + 0.4, 1);
+	float t = 0.25 * TIME;
+	float r = noise3(vec3(scaled + vec2(0.6*t), t));
+	r = min(r * 0.9 + 0.4, 1);
 	float h = clamp(height / (r * r), 0, 1);
 	float k = (h - 1.0) * (h - 1.0);
-	ALPHA = k;//k*k*(3.0-2.0*k);
+	float mix_ground = clamp(height * 5.0, 0, 1);
+	mix_ground = 1.0 - (1.0 - mix_ground) * (1.0 - mix_ground);
+	ALPHA = mix(1.0, k, mix_ground);//k*k*(3.0-2.0*k);
 	ALBEDO = color;
 }
 
