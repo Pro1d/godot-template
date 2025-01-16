@@ -29,10 +29,26 @@ func center_world_on_camera(origin: Vector3 = Vector3.ZERO) -> void:
 	pos.y = 0
 	position = origin - pos
 
-func align_world_to(t: Transform2D) -> void:
-	# Assuming there is no scale in the transform
-	var t_inv := t.affine_inverse()
-	transform = Geometry.to_transform_3d(t_inv) * transform
+func center_player_on(p_transform : Transform3D) -> void:
+	# In order to center our player so the players feet are at the location
+	# indicated by p_transform, and having our player looking in the required
+	# direction, we must offset this transform using the cameras transform.
+
+	# So we get our current camera transform in local space
+	var camera_transform := _camera.transform
+
+	# We obtain our view direction and zero out our height
+	var view_direction := camera_transform.basis.z
+	view_direction.y = 0
+
+	# Now create the transform that we will use to offset our input with
+	var t : Transform3D
+	t = t.looking_at(-view_direction, Vector3.UP)
+	t.origin = camera_transform.origin
+	t.origin.y = 0
+
+	# And now update our origin point
+	global_transform = (p_transform * t.inverse()).orthonormalized()
 
 func set_passthrough(on: bool) -> bool:
 	var success := true
