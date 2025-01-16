@@ -268,25 +268,21 @@ func load_scene(p_scene_path : String, user_data = null) -> void:
 ## Note that our AABB is set to HUGE so it should always be rendered
 ## unless hidden.
 func set_fade(p_value : float):
-	if p_value == 0.0:
-		$Fade.visible = false
-	else:
-		var material : ShaderMaterial = $Fade.get_surface_override_material(0)
-		if material:
-			material.set_shader_parameter("alpha", p_value)
-		$Fade.visible = true
+	XRToolsFade.set_fade("staging", Color(0, 0, 0, p_value))
 
 
 func _add_signals(p_scene : XRToolsSceneBase):
 	p_scene.connect("request_exit_to_main_menu", _on_exit_to_main_menu)
 	p_scene.connect("request_load_scene", _on_load_scene)
 	p_scene.connect("request_reset_scene", _on_reset_scene)
+	p_scene.connect("request_quit", _on_quit)
 
 
 func _remove_signals(p_scene : XRToolsSceneBase):
 	p_scene.disconnect("request_exit_to_main_menu", _on_exit_to_main_menu)
 	p_scene.disconnect("request_load_scene", _on_load_scene)
 	p_scene.disconnect("request_reset_scene", _on_reset_scene)
+	p_scene.disconnect("request_quit", _on_quit)
 
 
 func _on_exit_to_main_menu():
@@ -299,6 +295,10 @@ func _on_load_scene(p_scene_path : String, user_data):
 
 func _on_reset_scene(user_data):
 	load_scene(current_scene_path, user_data)
+
+
+func _on_quit():
+	$StartXR.end_xr()
 
 
 func _on_StartXR_xr_started():
