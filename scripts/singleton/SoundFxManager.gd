@@ -4,7 +4,7 @@ extends Node
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	ui_sound.bus = &"UI"
+	ui_sound.bus = &"SoundFX"
 	#ui_sound.stream = preload("res://assets/sounds/tuck.ogg")
 	add_child(ui_sound)
 
@@ -24,6 +24,20 @@ func keep_until_finished(audio: Node) -> void: # AudioStreamPlayer[2D]
 	if asp3d != null:
 		asp3d.finished.connect(audio.queue_free)
 		return
+
+func keep_audio_3d_until_finished(audio: AudioStreamPlayer3D) -> void:
+	var t := audio.global_transform
+	
+	# reparent
+	audio.get_parent().remove_child(audio)
+	add_child(audio)
+	
+	# keep transform
+	audio.top_level = true
+	audio.global_transform = t
+	
+	# later free
+	audio.finished.connect(audio.queue_free)
 
 func connect_all_buttons(node: Node) -> void:
 	if node is Button:

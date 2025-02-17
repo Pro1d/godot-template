@@ -5,7 +5,7 @@
 # Run from project root
 # $> bash ./build/export.sh
 
-itch_project=beyond-cubes-vr
+itch_project=hack-the-loop
 itch_user=proyd
 itch_upload=1
 
