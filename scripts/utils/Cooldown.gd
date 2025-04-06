@@ -5,9 +5,9 @@ signal charges_changed(charges: int, max_charges: int)
 signal activated()
 signal terminated()
 
-@export var max_charges := 3
-@export var active_duration := 1.0 : set=set_active_duration
-@export var cooldown_duration := 5.0 : set=set_cooldown_duration
+@export var max_charges := 2
+@export var active_duration := 0.7 : set=set_active_duration
+@export var cooldown_duration := 2.0 : set=set_cooldown_duration
 
 var charges : int
 

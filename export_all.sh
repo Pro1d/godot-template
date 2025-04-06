@@ -3,9 +3,9 @@
 # Install butler: https://itch.io/docs/butler/installing.html
 #
 # Run from project root
-# $> bash ./build/export.sh
+# $> bash ./export_all.sh
 
-itch_project=hack-the-loop
+itch_project=project-name
 itch_user=proyd
 itch_upload=1
 
