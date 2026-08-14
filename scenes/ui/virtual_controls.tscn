@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://cfejqm4th86bw"]
+
+[ext_resource type="Script" uid="uid://b1xgf5o8e53p5" path="res://scripts/ui/virtual_controls.gd" id="1_kcr8m"]
+
+[sub_resource type="SystemFont" id="SystemFont_dug5p"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kcr8m"]
+bg_color = Color(0.8, 0.8, 0.8, 0.43137255)
+border_color = Color(0.06666667, 0.06666667, 0.06666667, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t4x1d"]
+bg_color = Color(0.8, 0.8, 0.8, 1)
+border_color = Color(0.06666667, 0.06666667, 0.06666667, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7l5p8"]
+bg_color = Color(0.5971761, 0.5971762, 0.59717584, 1)
+border_color = Color(0.06666667, 0.06666667, 0.06666667, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="Theme" id="Theme_bpwie"]
+Button/colors/font_color = Color(0.06879829, 0.068798274, 0.068798214, 1)
+Button/font_sizes/font_size = 24
+Button/fonts/font = SubResource("SystemFont_dug5p")
+Button/styles/disabled = SubResource("StyleBoxFlat_kcr8m")
+Button/styles/normal = SubResource("StyleBoxFlat_t4x1d")
+Button/styles/pressed = SubResource("StyleBoxFlat_7l5p8")
+
+[node name="VirtualControls" type="HBoxContainer" unique_id=2079196975]
+theme = SubResource("Theme_bpwie")
+script = ExtResource("1_kcr8m")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=668132686]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VirtualJoystick" type="VirtualJoystick" parent="MarginContainer" unique_id=1339335165]
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="MarginContainer2" type="MarginContainer" parent="." unique_id=1371068173]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer2" unique_id=2082327228]
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="GridContainer" type="VBoxContainer" parent="MarginContainer2/CenterContainer" unique_id=1635687540]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 8
+theme_override_constants/separation = 18
+alignment = 2
+
+[node name="ButtonB" type="Button" parent="MarginContainer2/CenterContainer/GridContainer" unique_id=2086660929]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+text = "B"
+autowrap_trim_flags = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2/CenterContainer/GridContainer" unique_id=1759929931]
+layout_mode = 2
+alignment = 2
+
+[node name="ButtonA" type="Button" parent="MarginContainer2/CenterContainer/GridContainer/HBoxContainer" unique_id=569026071]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+focus_mode = 0
+text = "A"
+autowrap_trim_flags = 0
+
+[node name="Control2" type="Control" parent="MarginContainer2/CenterContainer/GridContainer/HBoxContainer" unique_id=1491597128]
+custom_minimum_size = Vector2(25, 0)
+layout_mode = 2

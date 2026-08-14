@@ -15,3 +15,10 @@ func _enter_tree() -> void:
 #		CursorAimIcon, Input.CURSOR_CROSS, Vector2(16, 16)
 #	)
 	pass
+
+func is_mobile_device() -> bool:
+	return (
+		OS.has_feature("web_android") or
+		OS.has_feature("web_ios") or
+		OS.has_feature("android") or
+		OS.has_feature("ios"))
